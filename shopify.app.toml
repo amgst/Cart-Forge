@@ -2,7 +2,7 @@
 
 client_id = "5bb7e7bf68e89cbeccc41481cc571c07"
 name = "Cart Forge"
-application_url = "https://example.com"
+application_url = "https://cartforge-one.vercel.app"
 embedded = true
 
 [access_scopes]
