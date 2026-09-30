@@ -132,12 +132,20 @@ export default function RuleBuilder() {
   };
 
   const pick = async (field, type) => {
-    const selection = await shopify.resourcePicker({
-      type,
-      action: "select",
-      multiple: false,
-      ...(type === "product" ? { filter: { variants: false } } : {}),
-    });
+    let selection;
+    try {
+      selection = await shopify.resourcePicker({
+        type,
+        action: "select",
+        multiple: false,
+        ...(type === "product" ? { filter: { variants: false } } : {}),
+      });
+    } catch (error) {
+      shopify.toast.show(`Couldn’t open the product picker: ${error.message}`, {
+        isError: true,
+      });
+      return;
+    }
     const item = selection?.[0];
     if (!item) return;
     const target =
@@ -195,7 +203,13 @@ export default function RuleBuilder() {
     return (
       <s-stack gap="small-200">
         <s-text type="strong">{label}</s-text>
-        <s-box padding="small" border="base" borderRadius="base">
+        <s-clickable
+          padding="small"
+          border="base"
+          borderRadius="base"
+          accessibilityLabel={`${label}: ${selected?.title ?? placeholder}`}
+          onClick={() => pick(field, "product")}
+        >
           <s-grid
             gridTemplateColumns="auto 1fr auto"
             gap="base"
@@ -216,19 +230,14 @@ export default function RuleBuilder() {
                 </s-text>
               )}
             </s-stack>
-            <s-button-group>
-              <s-button onClick={() => pick(field, "product")}>
-                {selected ? "Change" : "Choose product"}
-              </s-button>
-              <s-button
-                variant="tertiary"
-                onClick={() => pick(field, "variant")}
-              >
-                Variant
-              </s-button>
-            </s-button-group>
+            <s-text color="subdued">{selected ? "Change" : "Browse"}</s-text>
           </s-grid>
-        </s-box>
+        </s-clickable>
+        <s-stack direction="inline">
+          <s-button variant="tertiary" onClick={() => pick(field, "variant")}>
+            Choose a specific variant instead
+          </s-button>
+        </s-stack>
       </s-stack>
     );
   };
