@@ -3,16 +3,120 @@
     "export": "cart-validations-generate-run",
     "target": "cart.validations.generate.run",
     "input": {
+      "presentmentCurrencyRate": "1.0",
+      "validation": {
+        "metafield": {
+          "jsonValue": {
+            "enabled": true,
+            "rules": [
+              {
+                "id": "r1",
+                "name": "Min $50",
+                "template": "minCartValue",
+                "status": "active",
+                "threshold": 50,
+                "message": "Your order subtotal must be at least $50."
+              },
+              {
+                "id": "r2",
+                "name": "Box max 2",
+                "template": "maxProductQuantity",
+                "status": "active",
+                "threshold": 2,
+                "target": {
+                  "id": "gid://shopify/Product/1",
+                  "type": "Product"
+                },
+                "message": "You can purchase a maximum of 2 Limited Edition Boxes per order."
+              },
+              {
+                "id": "r3",
+                "name": "Max 20 items",
+                "template": "totalCartQuantity",
+                "status": "active",
+                "threshold": 20,
+                "message": "Your order can contain a maximum of 20 items."
+              },
+              {
+                "id": "r4",
+                "name": "Candle needs tote",
+                "template": "requiredProduct",
+                "status": "active",
+                "threshold": 1,
+                "target": {
+                  "id": "gid://shopify/ProductVariant/30",
+                  "type": "ProductVariant"
+                },
+                "secondaryTarget": {
+                  "id": "gid://shopify/Product/2",
+                  "type": "Product"
+                },
+                "message": "Add Everyday Canvas Tote to your order to purchase Studio Candle."
+              },
+              {
+                "id": "r5",
+                "name": "No bottle + candle",
+                "template": "productCombination",
+                "status": "active",
+                "threshold": 1,
+                "target": {
+                  "id": "gid://shopify/Product/4",
+                  "type": "Product"
+                },
+                "secondaryTarget": {
+                  "id": "gid://shopify/Product/3",
+                  "type": "Product"
+                },
+                "message": "Glass Water Bottle and Studio Candle cannot be purchased together."
+              },
+              {
+                "id": "r6",
+                "name": "Draft wholesale",
+                "template": "minCartValue",
+                "status": "inactive",
+                "threshold": 500,
+                "message": "Wholesale orders start at $500."
+              },
+              {
+                "id": "r7",
+                "name": "Custom: not exactly 7 items",
+                "template": "custom",
+                "status": "active",
+                "threshold": 7,
+                "condition": "totalQuantity",
+                "comparison": "eq",
+                "message": "Orders of exactly 7 items are not allowed."
+              }
+            ]
+          }
+        }
+      },
       "cart": {
+        "cost": {
+          "subtotalAmount": {
+            "amount": "80.0"
+          }
+        },
         "lines": [
           {
-            "quantity": 1
+            "quantity": 2,
+            "merchandise": {
+              "__typename": "ProductVariant",
+              "id": "gid://shopify/ProductVariant/10",
+              "product": {
+                "id": "gid://shopify/Product/1"
+              }
+            }
           },
           {
-            "quantity": 1
-          },
-          {
-            "quantity": 1
+            "quantity": 1,
+            "merchandise": {
+              "__typename": "ProductVariant",
+              "id": "gid://shopify/ProductVariant/20",
+              "product": {
+                "id": "gid://shopify/Product/2"
+              }
+            }
           }
         ]
       }

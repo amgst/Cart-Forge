@@ -1,7 +1,27 @@
 query CartValidationsGenerateRunInput {
+  presentmentCurrencyRate
+  validation {
+    metafield(namespace: "$app", key: "cart_rules") {
+      jsonValue
+    }
+  }
   cart {
+    cost {
+      subtotalAmount {
+        amount
+      }
+    }
     lines {
       quantity
+      merchandise {
+        __typename
+        ... on ProductVariant {
+          id
+          product {
+            id
+          }
+        }
+      }
     }
   }
 }

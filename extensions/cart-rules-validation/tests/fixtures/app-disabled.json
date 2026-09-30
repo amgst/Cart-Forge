@@ -7,7 +7,7 @@
       "validation": {
         "metafield": {
           "jsonValue": {
-            "enabled": true,
+            "enabled": false,
             "rules": [
               {
                 "id": "r1",
@@ -94,7 +94,7 @@
       "cart": {
         "cost": {
           "subtotalAmount": {
-            "amount": "40.0"
+            "amount": "10.0"
           }
         },
         "lines": [
@@ -107,26 +107,6 @@
                 "id": "gid://shopify/Product/1"
               }
             }
-          },
-          {
-            "quantity": 1,
-            "merchandise": {
-              "__typename": "ProductVariant",
-              "id": "gid://shopify/ProductVariant/30",
-              "product": {
-                "id": "gid://shopify/Product/3"
-              }
-            }
-          },
-          {
-            "quantity": 1,
-            "merchandise": {
-              "__typename": "ProductVariant",
-              "id": "gid://shopify/ProductVariant/40",
-              "product": {
-                "id": "gid://shopify/Product/4"
-              }
-            }
           }
         ]
       }
@@ -135,24 +115,7 @@
       "operations": [
         {
           "validationAdd": {
-            "errors": [
-              {
-                "message": "Your order subtotal must be at least $50.",
-                "target": "$.cart"
-              },
-              {
-                "message": "You can purchase a maximum of 2 Limited Edition Boxes per order.",
-                "target": "$.cart"
-              },
-              {
-                "message": "Add Everyday Canvas Tote to your order to purchase Studio Candle.",
-                "target": "$.cart"
-              },
-              {
-                "message": "Glass Water Bottle and Studio Candle cannot be purchased together.",
-                "target": "$.cart"
-              }
-            ]
+            "errors": []
           }
         }
       ]

@@ -1,0 +1,40 @@
+{
+  "payload": {
+    "export": "cart-validations-generate-run",
+    "target": "cart.validations.generate.run",
+    "input": {
+      "presentmentCurrencyRate": "1.0",
+      "validation": {
+        "metafield": null
+      },
+      "cart": {
+        "cost": {
+          "subtotalAmount": {
+            "amount": "5.0"
+          }
+        },
+        "lines": [
+          {
+            "quantity": 1,
+            "merchandise": {
+              "__typename": "ProductVariant",
+              "id": "gid://shopify/ProductVariant/10",
+              "product": {
+                "id": "gid://shopify/Product/1"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "output": {
+      "operations": [
+        {
+          "validationAdd": {
+            "errors": []
+          }
+        }
+      ]
+    }
+  }
+}

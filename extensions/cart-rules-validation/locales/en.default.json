@@ -1,4 +1,4 @@
 {
-  "name": "cart-rules-validation",
-  "description": "cart-rules-validation"
+  "name": "Cart Forge rules",
+  "description": "Blocks checkout when a cart breaks one of your Cart Forge rules."
 }
