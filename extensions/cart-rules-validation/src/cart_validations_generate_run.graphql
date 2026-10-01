@@ -1,5 +1,8 @@
 query CartValidationsGenerateRunInput {
   presentmentCurrencyRate
+  buyerJourney {
+    step
+  }
   validation {
     metafield(namespace: "$app", key: "cart_rules") {
       jsonValue

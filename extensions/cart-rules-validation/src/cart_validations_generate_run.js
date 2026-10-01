@@ -100,9 +100,32 @@ export function cartValidationsGenerateRun(input) {
     }
   };
 
+  // Shopify runs this on every cart change, and an error rejects the change. Rules that
+  // need *more* in the cart (minimums, required products) are naturally broken while the
+  // customer is still shopping, so they only block at checkout. Rules that adding more
+  // can break (maximums, forbidden combinations) still stop the add-to-cart.
+  /** @param {Rule} rule */
+  const blocksCartInteraction = (rule) => {
+    switch (rule.template) {
+      case "maxCartValue":
+      case "maxProductQuantity":
+      case "totalCartQuantity":
+      case "productCombination":
+        return true;
+      case "custom":
+        return rule.comparison === "gt";
+      default:
+        return false;
+    }
+  };
+
+  const isCartInteraction = input.buyerJourney?.step === "CART_INTERACTION";
+
   const messages = new Set();
   for (const rule of config.rules ?? []) {
-    if (rule.status === "active" && isBroken(rule)) messages.add(rule.message);
+    if (rule.status !== "active") continue;
+    if (isCartInteraction && !blocksCartInteraction(rule)) continue;
+    if (isBroken(rule)) messages.add(rule.message);
   }
 
   const errors = [...messages].map((message) => ({

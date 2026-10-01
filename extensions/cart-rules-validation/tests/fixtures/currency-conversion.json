@@ -4,6 +4,9 @@
     "target": "cart.validations.generate.run",
     "input": {
       "presentmentCurrencyRate": "10.0",
+      "buyerJourney": {
+        "step": "CHECKOUT_COMPLETION"
+      },
       "validation": {
         "metafield": {
           "jsonValue": {
