@@ -100,7 +100,11 @@ export default function RuleBuilder() {
   const navigate = useNavigate();
   const shopify = useAppBridge();
   const [draft, setDraft] = useState(rule);
-  const [messageEdited, setMessageEdited] = useState(!isNew);
+  // Keep the message in sync with the products unless the merchant wrote their own,
+  // so changing a product on a saved rule doesn't leave a stale product name behind.
+  const [messageEdited, setMessageEdited] = useState(
+    () => !isNew && rule.message !== messageFor(rule, currencyCode, tone),
+  );
   const saving = fetcher.state !== "idle";
 
   useEffect(() => {
