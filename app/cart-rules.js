@@ -226,11 +226,26 @@ export function makeRule(template, currencyCode, tone) {
 
 /** Returns an error string, or null when the rule can be saved. */
 export function validateRule(rule) {
+  if (!rule || typeof rule !== "object" || Array.isArray(rule))
+    return "Choose a rule type.";
   if (!isTemplate(rule.template)) return "Choose a rule type.";
-  if (!rule.name?.trim()) return "Add a rule name.";
-  if (!rule.message?.trim()) return "Add a customer message.";
+  if (typeof rule.name !== "string" || !rule.name.trim()) return "Add a rule name.";
+  if (typeof rule.message !== "string" || !rule.message.trim()) return "Add a customer message.";
   if (rule.message.length > 180) return "Keep the customer message under 180 characters.";
-  if (!(Number(rule.threshold) >= 0)) return "Enter a valid number.";
+  if (rule.template === "custom") {
+    if (!CONDITIONS.some((condition) => condition.id === rule.condition))
+      return "Choose a valid condition.";
+    if (!COMPARISONS.some((comparison) => comparison.id === rule.comparison))
+      return "Choose a valid comparison.";
+  }
+  const threshold = Number(rule.threshold);
+  if (
+    !["number", "string"].includes(typeof rule.threshold) ||
+    (typeof rule.threshold === "string" && !rule.threshold.trim()) ||
+    !Number.isFinite(threshold) || threshold < 0
+  ) return "Enter a valid number.";
+  if (!isMoneyRule(rule) && !needsSecondaryTarget(rule) && !Number.isInteger(threshold))
+    return "Enter a whole number of units.";
   if (needsTarget(rule) && !rule.target?.id)
     return "Choose a product to finish this rule.";
   if (needsSecondaryTarget(rule) && !rule.secondaryTarget?.id)
