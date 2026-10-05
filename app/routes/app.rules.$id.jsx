@@ -94,7 +94,15 @@ function pickTarget(target) {
   };
 }
 
-export default function RuleBuilder() {
+export default function RuleBuilderRoute() {
+  const data = useLoaderData();
+  // Remount per template/rule so the form state never carries over between them.
+  return (
+    <RuleBuilder key={data.isNew ? `new-${data.rule.template}` : data.rule.id} />
+  );
+}
+
+function RuleBuilder() {
   const { rule, isNew, currencyCode, tone } = useLoaderData();
   const fetcher = useFetcher();
   const navigate = useNavigate();
@@ -247,7 +255,7 @@ export default function RuleBuilder() {
   };
 
   return (
-    <s-page heading={isNew ? "Create a rule" : "Edit rule"}>
+    <s-page heading={isNew ? templateTitle(draft.template) : "Edit rule"}>
       <s-link slot="breadcrumb-actions" href="/app">
         Cart Rules
       </s-link>

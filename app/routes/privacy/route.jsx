@@ -22,7 +22,7 @@ export default function PrivacyPolicy() {
         <p className={styles.updated}>Last updated: {LAST_UPDATED}</p>
 
         <p>
-          Cart Forge ("the App", "we", "us") is a Shopify app that lets
+          Cart Forge (“the App”, “we”, “us”) is a Shopify app that lets
           merchants create checkout validation rules for their store. This
           policy explains what information the App collects, how it is used,
           and how it is deleted when a merchant installs and uses the App.
@@ -93,7 +93,7 @@ export default function PrivacyPolicy() {
             runs the checkout validation.
           </li>
           <li>
-            <strong>Vercel</strong>: hosts the App's web application.
+            <strong>Vercel</strong>: hosts the App’s web application.
           </li>
           <li>
             <strong>Google Firebase (Cloud Firestore)</strong>: stores
