@@ -123,6 +123,16 @@
   line-height: 1.5;
 }
 
+
+.footer {
+  font-size: 0.9rem;
+  margin: 1.5rem 0 0;
+}
+
+.footer a {
+  color: #176b4d;
+}
+
 @media only screen and (max-width: 50rem) {
   .heading {
     font-size: 2.25rem;

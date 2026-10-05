@@ -39,6 +39,9 @@ export default function App() {
             <span>Keep cart tools and product actions organized in one place.</span>
           </li>
         </ul>
+        <p className={styles.footer}>
+          <a href="/privacy">Privacy Policy</a>
+        </p>
       </div>
     </div>
   );
