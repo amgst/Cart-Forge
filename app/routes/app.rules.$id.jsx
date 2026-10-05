@@ -108,11 +108,6 @@ function RuleBuilder() {
   const navigate = useNavigate();
   const shopify = useAppBridge();
   const [draft, setDraft] = useState(rule);
-  // Keep the message in sync with the products unless the merchant wrote their own,
-  // so changing a product on a saved rule doesn't leave a stale product name behind.
-  const [messageEdited, setMessageEdited] = useState(
-    () => !isNew && rule.message !== messageFor(rule, currencyCode, tone),
-  );
   const saving = fetcher.state !== "idle";
 
   useEffect(() => {
@@ -128,7 +123,14 @@ function RuleBuilder() {
   const change = (updates) =>
     setDraft((current) => {
       const next = { ...current, ...updates };
-      if (!messageEdited && !("message" in updates) && !("name" in updates)) {
+      // Keep the message in sync with the rule unless the merchant wrote their own, so
+      // changing a product doesn't leave a stale product name in the customer message.
+      // Either tone counts as generated, in case the tone setting changed since saving.
+      const generated =
+        !current.message.trim() ||
+        current.message === messageFor(current, currencyCode, "friendly") ||
+        current.message === messageFor(current, currencyCode, "neutral");
+      if (generated && !("message" in updates) && !("name" in updates)) {
         next.message = messageFor(next, currencyCode, tone);
       }
       return next;
@@ -392,10 +394,7 @@ function RuleBuilder() {
           maxLength={180}
           details={`Shown in the cart and checkout when this rule is not met. ${draft.message.length}/180`}
           value={draft.message}
-          onInput={(event) => {
-            setMessageEdited(true);
-            change({ message: event.currentTarget.value });
-          }}
+          onInput={(event) => change({ message: event.currentTarget.value })}
         />
       </s-section>
 
